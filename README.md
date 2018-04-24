@@ -1,11 +1,13 @@
-Openssh 升级
-一、	安装gcc, pam-devel, zlib-devel, openssl-devel
-安装gcc，zlib-devel, pam-devel
+#Openssh 升级
+##一、安装gcc, pam-devel, zlib-devel, openssl-devel
+###安装gcc，zlib-devel, pam-devel
 验证是否已安装，如果有可跳过
-Rpm –qa|grep gcc
-安装openssl-devel
+```
+rpm –qa|grep gcc
+```
+###安装openssl-devel
 验证同上
-
+```
 keyutils-1.4-5.el6.x86_64.rpm
 keyutils-libs-1.4-5.el6.x86_64.rpm
 keyutils-libs-devel-1.4-5.el6.x86_64.rpm
@@ -24,53 +26,66 @@ zlib-1.2.3-29.el6.x86_64.rpm
 zlib-devel-1.2.3-29.el6.x86_64.rpm
 openssl-1.0.1e-48.el6.x86_64.rpm
 openssl-devel-1.0.1e-48.el6.x86_64.rpm
+```
 注：rpm包版本依具体情况而定
 
-二、安装telnet服务
-# vi /etc/xinetd.d/telnet 
+##二、安装telnet服务
+```
+vi /etc/xinetd.d/telnet
+```
 将其中disable字段的yes改为no以启用telnet服务 
-# mv /etc/securetty /etc/securetty.old    #允许root用户通过telnet登录 
-# service xinetd start                    #启动telnet服务 
-# chkconfig xinetd on                    #使telnet服务开机启动，避免升级过程中服务器意外重启后无法远程登录系统
-
+```
+ mv /etc/securetty /etc/securetty.old    //允许root用户通过telnet登录 
+ service xinetd start                    //启动telnet服务 
+ chkconfig xinetd on                    //使telnet服务开机启动，避免升级过程中服务器意外重启后无法远程登录系统
+```
 测试telnet能否正常登入系统
 
-三、	升级openssh
-1.备份当前openssh
+##三、升级openssh
+###1.备份当前openssh
+```
 mv /etc/ssh /etc/ssh.old 
 mv /etc/init.d/sshd /etc/init.d/sshd.old
-
-2.卸载当前openssh
-# rpm -qa | grep openssh 
+```
+###2.卸载当前openssh
+```
+ rpm -qa | grep openssh 
 openssh-clients-5.3p1-104.el6.x86_64 
 openssh-server-5.3p1-104.el6.x86_64 
 openssh-5.3p1-104.el6.x86_64 
 openssh-askpass-5.3p1-104.el6.x86_64 
-# rpm -e --nodeps openssh-5.3p1-104.el6.x86_64 
-# rpm -e --nodeps openssh-server-5.3p1-104.el6.x86_64 
-# rpm -e --nodeps openssh-clients-5.3p1-104.el6.x86_64 
-# rpm -e --nodeps openssh-askpass-5.3p1-104.el6.x86_64 
-# rpm -qa | grep openssh 
-注意：卸载过程中如果出现以下错误 
+ rpm -e --nodeps openssh-5.3p1-104.el6.x86_64 
+ rpm -e --nodeps openssh-server-5.3p1-104.el6.x86_64 
+ rpm -e --nodeps openssh-clients-5.3p1-104.el6.x86_64 
+ rpm -e --nodeps openssh-askpass-5.3p1-104.el6.x86_64 
+ rpm -qa | grep openssh
+ ```
+注意：卸载过程中如果出现以下错误
+```
 [root@node1 openssh-7.5p1]# rpm -e --nodeps openssh-server-5.3p1-104.el6.x86_64  
 error reading information on service sshd: No such file or directory 
 error: %preun(openssh-server-5.3p1-104.el6.x86_64) scriptlet failed, exit status 1 
+```
 解决方法： 
-# rpm -e --noscripts openssh-server-5.3p1-104.el6.x86_64
-
-3.openssh安装前环境配置
-# install -v -m700 -d /var/lib/sshd 
-# chown -v root:sys /var/lib/sshd 
+```
+rpm -e --noscripts openssh-server-5.3p1-104.el6.x86_64
+```
+###3.openssh安装前环境配置
+```
+ install -v -m700 -d /var/lib/sshd 
+ chown -v root:sys /var/lib/sshd
+ ```
 当前系统sshd用户已经存在的话以下不用操作 
-# groupadd -g 50 sshd 
-# useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
-
-4.解压openssh_7.5p1源码并编译安装
-# tar -zxvf openssh-7.5p1.tar.gz 
-# cd openssh-7.5p1 
-# ./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-zlib --with-openssl-includes=/usr --with-privsep-path=/var/lib/sshd 
-# make 
-# make install
+ ```
+ groupadd -g 50 sshd 
+ useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
+```
+###4.解压openssh_7.5p1源码并编译安装
+tar -zxvf openssh-7.5p1.tar.gz 
+ cd openssh-7.5p1 
+ ./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-zlib --with-openssl-includes=/usr --with-privsep-path=/var/lib/sshd 
+ make 
+ make install
 
 如果在configure openssh时，如果有参数 –with-pam，会提示：
 PAM is enabled. You may need to install a PAM control file for sshd, otherwise password authentication may fail. Example PAM control files can be found in the contrib/subdirectory
