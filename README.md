@@ -1,4 +1,4 @@
-Openssh 升级
+CentOS6.6下 Openssh 5.3升级7.5</br>
 一、安装gcc, pam-devel, zlib-devel, openssl-devel
 安装gcc，zlib-devel, pam-devel
 验证是否已安装，如果有可跳过
