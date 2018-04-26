@@ -1,5 +1,5 @@
 # CentOS6.6下 Openssh 5.3升级7.5</br>
-一、安装gcc, pam-devel, zlib-devel, openssl-devel
+## 一、安装gcc, pam-devel, zlib-devel, openssl-devel
 安装gcc，zlib-devel, pam-devel
 验证是否已安装，如果有可跳过
 ```
@@ -29,7 +29,7 @@ openssl-devel-1.0.1e-48.el6.x86_64.rpm
 ```
 注：rpm包版本依具体情况而定
 
-二、安装telnet服务
+## 二、安装telnet服务
 ```
 vi /etc/xinetd.d/telnet
 ```
@@ -41,13 +41,13 @@ vi /etc/xinetd.d/telnet
 ```
 测试telnet能否正常登入系统
 
-三、升级openssh
-1.备份当前openssh
+## 三、升级openssh
+### 1.备份当前openssh
 ```
 mv /etc/ssh /etc/ssh.old 
 mv /etc/init.d/sshd /etc/init.d/sshd.old
 ```
-2.卸载当前openssh
+### 2.卸载当前openssh
 ```
  rpm -qa | grep openssh 
 openssh-clients-5.3p1-104.el6.x86_64 
@@ -70,7 +70,7 @@ error: %preun(openssh-server-5.3p1-104.el6.x86_64) scriptlet failed, exit status
 ```
 rpm -e --noscripts openssh-server-5.3p1-104.el6.x86_64
 ```
-3.openssh安装前环境配置
+### 3.openssh安装前环境配置
 ```
  install -v -m700 -d /var/lib/sshd 
  chown -v root:sys /var/lib/sshd
@@ -80,7 +80,7 @@ rpm -e --noscripts openssh-server-5.3p1-104.el6.x86_64
  groupadd -g 50 sshd 
  useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
 ```
-4.解压openssh_7.5p1源码并编译安装
+### 4.解压openssh_7.5p1源码并编译安装
 ```
 tar -zxvf openssh-7.5p1.tar.gz 
  cd openssh-7.5p1 
@@ -94,7 +94,7 @@ PAM is enabled. You may need to install a PAM control file for sshd, otherwise p
 ```
 就是如果启用PAM，需要有一个控制文件，按照提示的路径找到contrib/redhat/sshd.pam，并复制到/etc/pam.d/sshd，在/etc/ssh/sshd_config中打开UsePAM yes。发现连接服务器被拒绝，关掉就可以登录。
 
-5.openssh安装后环境配置
+### 5.openssh安装后环境配置
  在openssh编译目录执行如下命令 
  ```
  install -v -m755    contrib/ssh-copy-id /usr/bin 
@@ -104,7 +104,7 @@ PAM is enabled. You may need to install a PAM control file for sshd, otherwise p
  ssh -V              //验证是否升级成功
  ```
 
-6.启用OpenSSH服务
+### 6.启用OpenSSH服务
  在openssh编译目录执行如下目录 
  ```
  echo 'X11Forwarding yes' >> /etc/ssh/sshd_config 
@@ -118,7 +118,7 @@ PAM is enabled. You may need to install a PAM control file for sshd, otherwise p
 ```
 注意：如果升级操作一直是在ssh远程会话中进行的，上述sshd服务重启命令可能导致会话断开并无法使用ssh再行登入（即ssh未能成功重启），此时需要通过telnet登入再执行sshd服务重启命令。
 
-7.加入系统服务
+### 7.加入系统服务
 ```
 chkconfig --add sshd
 ```
@@ -128,7 +128,7 @@ chkconfig --list |grep sshd
 
 sshd               0:off    1:off    2:on    3:on    4:on    5:on    6:off 
 ```
-8.允许root用户远程登录
+### 8.允许root用户远程登录
 ```
 cp sshd_config /etc/ssh/sshd_config
 ```
@@ -140,7 +140,7 @@ vim /etc/init.d/sshd
 ```
 在 ‘$SSHD $OPTIONS && success || failure’这一行上面加上一行 ‘OPTIONS="-f /etc/ssh/sshd_config"’
 保存退出
-9.重启系统验证没问题后关闭telnet服务
+### 9.重启系统验证没问题后关闭telnet服务
 ```
 mv /etc/securetty.old /etc/securetty 
  chkconfig  xinetd off 
