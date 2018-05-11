@@ -31,6 +31,12 @@ openssl-devel-1.0.1e-48.el6.x86_64.rpm
 
 ## 二、安装telnet服务
 ```
+xinetd-2.3.14-40.el6x86_64.rpm
+telnet-0.17-48.el6.x86_64.rpm
+telnet-server-0.17-48.el6.x86_64.rpm
+```
+安装好后
+```
 vi /etc/xinetd.d/telnet
 ```
 将其中disable字段的yes改为no以启用telnet服务 
