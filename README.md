@@ -127,7 +127,7 @@ ssh -V              //验证是否升级成功
 ```
 echo 'X11Forwarding yes' >> /etc/ssh/sshd_config 
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config  #允许root用户通过ssh登录 
-cp -p contrib/RedHat/sshd.init /etc/init.d/sshd 
+cp -p contrib/redhat/sshd.init /etc/init.d/sshd 
 chmod +x /etc/init.d/sshd 
 chkconfig  --add  sshd 
 chkconfig  sshd  on 
