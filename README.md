@@ -45,6 +45,18 @@ vi /etc/xinetd.d/telnet
  service xinetd start                    //启动telnet服务 
  chkconfig xinetd on                    //使telnet服务开机启动，避免升级过程中服务器意外重启后无法远程登录系统
 ```
+修改防火墙配置
+```
+vim /etc/sysconfig/iptables
+```
+在其中添加telnet的端口，默认为23
+```
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 23 -j ACCEPT
+```
+重启防火墙服务
+```
+service iptables restart
+```
 测试telnet能否正常登入系统
 
 ## 三、升级openssh
@@ -146,14 +158,20 @@ vim /etc/init.d/sshd
 ```
 在 ‘$SSHD $OPTIONS && success || failure’这一行上面加上一行 ‘OPTIONS="-f /etc/ssh/sshd_config"’
 保存退出
-### 9.重启系统验证没问题后关闭telnet服务
+### 9.重启系统验证没问题后关闭telnet服务将防火墙配置修改回来
 ```
 mv /etc/securetty.old /etc/securetty 
- chkconfig  xinetd off 
- service xinetd stop
- ```
+chkconfig  xinetd off 
+service xinetd stop
+vim /etc/sysconfig/iptables
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 23 -j ACCEPT //将这条删除
+```
+重启防火墙服务
+```
+service iptables restart
+```
 如需还原之前的ssh配置信息，可直接删除升级后的配置信息，恢复备份。 
 ```
 rm -rf /etc/ssh 
- mv /etc/ssh.old /etc/ssh
- ```
+mv /etc/ssh.old /etc/ssh
+```
