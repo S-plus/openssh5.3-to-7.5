@@ -4,18 +4,15 @@
 验证是否已安装，如果有可跳过
 ```
 rpm –qa|grep gcc
-rpm -ivh  mpfr-2.4.1-6.el6.x86_64.rpm
 
+rpm -ivh  mpfr-2.4.1-6.el6.x86_64.rpm
 rpm -ivh  cpp-4.4.7-16.el6.x86_64.rpm
 rpm -Uvh  libgomp-4.4.7-16.el6.x86_64.rpm
 rpm -Uvh  libgcc-4.4.7-16.el6.x86_64.rpm
-
 rpm -ivh  ppl-0.10.2-11.el6.x86_64.rpm
-
 rpm -ivh  cloog-ppl-0.15.7-1.2.el6.x86_64.rpm
 
 rpm -ivh  gcc-4.4.7-16.el6.x86_64.rpm
-
 ```
 到此安装结束如需安装gcc++
 ```
