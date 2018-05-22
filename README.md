@@ -25,9 +25,9 @@ rpm -ivh  gcc-c++-4.4.7-16.el6.x86_64.rpm
 rpm -ivh keyutils-1.4-5.el6.x86_64.rpm
 rpm -ivh keyutils-libs-1.4-5.el6.x86_64.rpm
 rpm -ivh keyutils-libs-devel-1.4-5.el6.x86_64.rpm
-rpm -ivh krb5-libs-1.10.3-57.el6.x86_64.rpm
+rpm -ivh krb5-libs-1.10.3-65.el6.x86_64.rpm
 rpm -Uvh libkadm5-1.10.3-65.el6.x86_64.rpm
-rpm -ivh krb5-workstation-1.10.3-57.el6.x86_64.rpm
+rpm -ivh krb5-workstation-1.10.3-65.el6.x86_64.rpm
 rpm -Uvh libss-1.41.12-22.el6.x86_64.rpm e2fsprogs-1.41.12-22.el6.x86_64.rpm libcom_err-1.41.12-23.el6.x86_64 e2fsprogs-libs-1.41.12-22.el6.x86_64.rpm
 rpm -Uvh libss-devel-1.41.12-22.el6.x86_64.rpm libcom_err-devel-1.41.12-23.el6.x86_64 
 rpm -ivh e2fsprogs-devel-1.41.12-22.el6.x86_64.rpm
@@ -38,8 +38,8 @@ rpm -Uvh libselinux-devel-2.0.94-7.el6.x86_64.rpm
 rpm -ivh krb5-devel-1.10.3-57.el6.x86_64.rpm
 rpm -ivh zlib-1.2.3-29.el6.x86_64.rpm
 rpm -ivh zlib-devel-1.2.3-29.el6.x86_64.rpm
-rpm -ivh openssl-1.0.1e-48.el6.x86_64.rpm
-rpm -ivh openssl-devel-1.0.1e-48.el6.x86_64.rpm
+rpm -ivh openssl-1.0.1e-57.el6.x86_64.rpm
+rpm -ivh openssl-devel-1.0.1e-57.el6.x86_64.rpm
 ```
 注：rpm包版本依具体情况而定
 
