@@ -164,8 +164,8 @@ sshd               0:off    1:off    2:on    3:on    4:on    5:on    6:off
 ```
 cp sshd_config /etc/ssh/sshd_config
 ```
-vim /etc/ssh/sshd_config 修改 PermitRootLogin yes,并去掉注释
-配置允许root用户远程登录
+**vim /etc/ssh/sshd_config 修改 PermitRootLogin yes,并去掉注释
+配置允许root用户远程登录**
 这一操作很重要！很重要！很重要！重要的事情说三遍，因为openssh安装好默认是不执行sshd_config文件的，所以即使在sshd_config中配置允许root用户远程登录，但是不加上这句命令，还是不会生效！
 ```
 vim /etc/init.d/sshd
