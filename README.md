@@ -1,5 +1,4 @@
 # CentOS6.6下 Openssh 5.3升级7.5  
-***
 ## 一、安装gcc, pam-devel, zlib-devel, openssl-devel
 安装gcc，zlib-devel, pam-devel
 验证是否已安装，如果有可跳过
@@ -168,7 +167,10 @@ cp sshd_config /etc/ssh/sshd_config
 ```
 vim /etc/init.d/sshd
 ```
-在 **$SSHD $OPTIONS && success || failure** 这一行上面加上一行 **OPTIONS="-f /etc/ssh/sshd_config"**  
+在   
+```$SSHD $OPTIONS && success || failure```  
+这一行上面加上一行   
+```OPTIONS="-f /etc/ssh/sshd_config"``` 
 保存退出
 ### 8.重启系统验证没问题后关闭telnet服务并将防火墙配置修改回来
 ```
