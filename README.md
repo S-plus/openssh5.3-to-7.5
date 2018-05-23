@@ -5,49 +5,49 @@
 ```
 rpm –qa|grep gcc
 
-rpm -ivh  mpfr-2.4.1-6.el6.x86_64.rpm
-rpm -ivh  cpp-4.4.7-16.el6.x86_64.rpm
+rpm -Uvh  mpfr-2.4.1-6.el6.x86_64.rpm
+rpm -Uvh  cpp-4.4.7-16.el6.x86_64.rpm
 rpm -Uvh  libgomp-4.4.7-16.el6.x86_64.rpm
 rpm -Uvh  libgcc-4.4.7-16.el6.x86_64.rpm
-rpm -ivh  ppl-0.10.2-11.el6.x86_64.rpm
-rpm -ivh  cloog-ppl-0.15.7-1.2.el6.x86_64.rpm
+rpm -Uvh  ppl-0.10.2-11.el6.x86_64.rpm
+rpm -Uvh  cloog-ppl-0.15.7-1.2.el6.x86_64.rpm
 
-rpm -ivh  gcc-4.4.7-16.el6.x86_64.rpm
+rpm -Uvh  gcc-4.4.7-16.el6.x86_64.rpm
 ```
 到此安装结束如需安装gcc++
 ```
-rpm -ivh  gcc-c++-4.4.7-16.el6.x86_64.rpm 
+rpm -Uvh  gcc-c++-4.4.7-16.el6.x86_64.rpm 
 ```
 
 安装openssl-devel
 验证同上
 ```
-rpm -ivh keyutils-1.4-5.el6.x86_64.rpm
-rpm -ivh keyutils-libs-1.4-5.el6.x86_64.rpm
-rpm -ivh keyutils-libs-devel-1.4-5.el6.x86_64.rpm
-rpm -ivh krb5-libs-1.10.3-65.el6.x86_64.rpm
+rpm -Uvh keyutils-1.4-5.el6.x86_64.rpm
+rpm -Uvh keyutils-libs-1.4-5.el6.x86_64.rpm
+rpm -Uvh keyutils-libs-devel-1.4-5.el6.x86_64.rpm
+rpm -Uvh krb5-libs-1.10.3-65.el6.x86_64.rpm
 rpm -Uvh libkadm5-1.10.3-65.el6.x86_64.rpm
-rpm -ivh krb5-workstation-1.10.3-65.el6.x86_64.rpm
+rpm -Uvh krb5-workstation-1.10.3-65.el6.x86_64.rpm
 rpm -Uvh libss-1.41.12-22.el6.x86_64.rpm e2fsprogs-1.41.12-22.el6.x86_64.rpm libcom_err-1.41.12-23.el6.x86_64 e2fsprogs-libs-1.41.12-22.el6.x86_64.rpm
 rpm -Uvh libss-devel-1.41.12-22.el6.x86_64.rpm libcom_err-devel-1.41.12-23.el6.x86_64 
-rpm -ivh e2fsprogs-devel-1.41.12-22.el6.x86_64.rpm
+rpm -Uvh e2fsprogs-devel-1.41.12-22.el6.x86_64.rpm
 rpm -Uvh libselinux-2.0.94-7.el6.x86_64.rpm libselinux-utils-2.0.94-7.el6.x86_64.rpm libselinux-python-2.0.94-7.el6.x86_64.rpm
 rpm -Uvh libsepol-2.0.41-4.el6.x86_64.rpm
 rpm -Uvh libsepol-devel-2.0.41-4.el6.x86_64.rpm
 rpm -Uvh libselinux-devel-2.0.94-7.el6.x86_64.rpm
-rpm -ivh krb5-devel-1.10.3-57.el6.x86_64.rpm
-rpm -ivh zlib-1.2.3-29.el6.x86_64.rpm
-rpm -ivh zlib-devel-1.2.3-29.el6.x86_64.rpm
-rpm -ivh openssl-1.0.1e-57.el6.x86_64.rpm
-rpm -ivh openssl-devel-1.0.1e-57.el6.x86_64.rpm
+rpm -Uvh krb5-devel-1.10.3-57.el6.x86_64.rpm
+rpm -Uvh zlib-1.2.3-29.el6.x86_64.rpm
+rpm -Uvh zlib-devel-1.2.3-29.el6.x86_64.rpm
+rpm -Uvh openssl-1.0.1e-57.el6.x86_64.rpm
+rpm -Uvh openssl-devel-1.0.1e-57.el6.x86_64.rpm
 ```
 注：rpm包版本依具体情况而定
 ***
 ## 二、安装telnet服务
 ```
-rpm -ivh xinetd-2.3.14-40.el6x86_64.rpm
-rpm -ivh telnet-0.17-48.el6.x86_64.rpm
-rpm -ivh telnet-server-0.17-48.el6.x86_64.rpm
+rpm -Uvh xinetd-2.3.14-40.el6x86_64.rpm
+rpm -Uvh telnet-0.17-48.el6.x86_64.rpm
+rpm -Uvh telnet-server-0.17-48.el6.x86_64.rpm
 ```
 安装好后
 ```
