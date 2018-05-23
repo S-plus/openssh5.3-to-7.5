@@ -1,4 +1,5 @@
-# CentOS6.6下 Openssh 5.3升级7.5</br>
+# CentOS6.6下 Openssh 5.3升级7.5  
+***
 ## 一、安装gcc, pam-devel, zlib-devel, openssl-devel
 安装gcc，zlib-devel, pam-devel
 验证是否已安装，如果有可跳过
@@ -42,7 +43,7 @@ rpm -ivh openssl-1.0.1e-57.el6.x86_64.rpm
 rpm -ivh openssl-devel-1.0.1e-57.el6.x86_64.rpm
 ```
 注：rpm包版本依具体情况而定
-
+***
 ## 二、安装telnet服务
 ```
 rpm -ivh xinetd-2.3.14-40.el6x86_64.rpm
@@ -71,15 +72,15 @@ vim /etc/sysconfig/iptables
 ```
 service iptables restart
 ```
-测试telnet能否正常登入系统
-
+测试telnet能否正常登入系统  
+***
 ## 三、升级openssh
-### 1.备份当前openssh
+### 1. 备份当前openssh
 ```
 mv /etc/ssh /etc/ssh.old 
 mv /etc/init.d/sshd /etc/init.d/sshd.old
 ```
-### 2.卸载当前openssh
+### 2. 卸载当前openssh
 ```
 rpm -qa | grep openssh 
 openssh-clients-5.3p1-104.el6.x86_64 
@@ -92,7 +93,7 @@ rpm -e --nodeps openssh-clients-5.3p1-104.el6.x86_64
 rpm -e --nodeps openssh-askpass-5.3p1-104.el6.x86_64 
 rpm -qa | grep openssh
 ```
-注意：卸载过程中如果出现以下错误
+> 注意：卸载过程中如果出现以下错误
 ```
 [root@node1 openssh-7.5p1]# rpm -e --nodeps openssh-server-5.3p1-104.el6.x86_64  
 error reading information on service sshd: No such file or directory 
@@ -102,7 +103,7 @@ error: %preun(openssh-server-5.3p1-104.el6.x86_64) scriptlet failed, exit status
 ```
 rpm -e --noscripts openssh-server-5.3p1-104.el6.x86_64
 ```
-### 3.openssh安装前环境配置
+### 3. openssh安装前环境配置
 ```
 install -v -m700 -d /var/lib/sshd 
 chown -v root:sys /var/lib/sshd
@@ -112,7 +113,7 @@ chown -v root:sys /var/lib/sshd
 groupadd -g 50 sshd 
 useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
 ```
-### 4.解压openssh_7.5p1源码并编译安装
+### 4. 解压openssh_7.5p1源码并编译安装
 ```
 tar -zxvf openssh-7.5p1.tar.gz 
 cd openssh-7.5p1 
@@ -120,13 +121,13 @@ cd openssh-7.5p1
 make 
 make install
 ```
-如果在configure openssh时，如果有参数 –with-pam，会提示：
-```
-PAM is enabled. You may need to install a PAM control file for sshd, otherwise password authentication may fail. Example PAM control files can be found in the contrib/subdirectory
-```
-就是如果启用PAM，需要有一个控制文件，按照提示的路径找到contrib/redhat/sshd.pam，并复制到/etc/pam.d/sshd，在/etc/ssh/sshd_config中打开UsePAM yes。发现连接服务器被拒绝，关掉就可以登录。
+> 如果在configure openssh时，如果有参数 –with-pam，会提示：
+  ```
+  PAM is enabled. You may need to install a PAM control file for sshd, otherwise password authentication may fail. Example PAM control files can be found in the contrib/subdirectory
+  ```
+  就是如果启用PAM，需要有一个控制文件，按照提示的路径找到contrib/redhat/sshd.pam，并复制到/etc/pam.d/sshd
 
-### 5.openssh安装后环境配置
+### 5. openssh安装后环境配置
 在openssh编译目录执行如下命令 
 ```
 install -v -m755    contrib/ssh-copy-id /usr/bin 
@@ -136,42 +137,40 @@ install -v -m644    INSTALL LICENCE OVERVIEW README* /usr/share/doc/openssh-7.5p
 ssh -V              //验证是否升级成功
 ```
 
-### 6.启用OpenSSH服务
+### 6. 启用OpenSSH服务
 在openssh编译目录执行如下目录 
 ```
 echo 'X11Forwarding yes' >> /etc/ssh/sshd_config 
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config  #允许root用户通过ssh登录 
 cp -p contrib/redhat/sshd.init /etc/init.d/sshd 
 chmod +x /etc/init.d/sshd 
-chkconfig  --add  sshd 
+chkconfig  --add  sshd  # 加入系统启动服务
 chkconfig  sshd  on 
-chkconfig  --list  sshd 
-service sshd restart
 ```
-注意：如果升级操作一直是在ssh远程会话中进行的，上述sshd服务重启命令可能导致会话断开并无法使用ssh再行登入（即ssh未能成功重启），此时需要通过telnet登入再执行sshd服务重启命令。
-
-### 7.加入系统服务
-```
-chkconfig --add sshd
-```
-查看系统启动服务是否增加改项
+查看系统启动服务是否增加该项
 ```
 chkconfig --list |grep sshd
 
 sshd               0:off    1:off    2:on    3:on    4:on    5:on    6:off 
 ```
-### 8.允许root用户远程登录
+重启openssh服务
+```
+service sshd restart
+```
+> 注意：如果升级操作一直是在ssh远程会话中进行的，上述sshd服务重启命令可能导致会话断开并无法使用ssh再行登入（即ssh未能成功重启），此时需要通过telnet登入再执行sshd服务重启命令。  
+
+### 7. 允许root用户远程登录
 ```
 cp sshd_config /etc/ssh/sshd_config
 ```
-**vim /etc/ssh/sshd_config 修改 PermitRootLogin yes,并去掉注释配置允许root用户远程登录**  
+> **vim /etc/ssh/sshd_config 修改 PermitRootLogin yes,并去掉注释配置允许root用户远程登录**  
 这一操作很重要！很重要！很重要！重要的事情说三遍，因为openssh安装好默认是不执行sshd_config文件的，所以即使在sshd_config中配置允许root用户远程登录，但是不加上这句命令，还是不会生效！
 ```
 vim /etc/init.d/sshd
 ```
-在 ‘$SSHD $OPTIONS && success || failure’这一行上面加上一行 ‘OPTIONS="-f /etc/ssh/sshd_config"’
+在 **$SSHD $OPTIONS && success || failure** 这一行上面加上一行 **OPTIONS="-f /etc/ssh/sshd_config"**  
 保存退出
-### 9.重启系统验证没问题后关闭telnet服务并将防火墙配置修改回来
+### 8.重启系统验证没问题后关闭telnet服务并将防火墙配置修改回来
 ```
 mv /etc/securetty.old /etc/securetty 
 chkconfig  xinetd off 
