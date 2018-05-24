@@ -25,9 +25,7 @@ rpm -Uvh  gcc-c++-4.4.7-16.el6.x86_64.rpm
 rpm -Uvh keyutils-1.4-5.el6.x86_64.rpm
 rpm -Uvh keyutils-libs-1.4-5.el6.x86_64.rpm
 rpm -Uvh keyutils-libs-devel-1.4-5.el6.x86_64.rpm
-rpm -Uvh krb5-libs-1.10.3-65.el6.x86_64.rpm
-rpm -Uvh libkadm5-1.10.3-65.el6.x86_64.rpm
-rpm -Uvh krb5-workstation-1.10.3-65.el6.x86_64.rpm
+rpm -Uvh krb5-libs-1.10.3-65.el6.x86_64.rpm libkadm5-1.10.3-65.el6.x86_64.rpm krb5-workstation-1.10.3-65.el6.x86_64.rpm
 rpm -Uvh libss-1.41.12-22.el6.x86_64.rpm e2fsprogs-1.41.12-22.el6.x86_64.rpm libcom_err-1.41.12-23.el6.x86_64 e2fsprogs-libs-1.41.12-22.el6.x86_64.rpm
 rpm -Uvh libss-devel-1.41.12-22.el6.x86_64.rpm libcom_err-devel-1.41.12-23.el6.x86_64 
 rpm -Uvh e2fsprogs-devel-1.41.12-22.el6.x86_64.rpm
@@ -152,18 +150,7 @@ chkconfig --list |grep sshd
 
 sshd               0:off    1:off    2:on    3:on    4:on    5:on    6:off 
 ```
-重启openssh服务
-```
-service sshd restart
-```
-> 注意：如果升级操作一直是在ssh远程会话中进行的，上述sshd服务重启命令可能导致会话断开并无法使用ssh再行登入（即ssh未能成功重启），此时需要通过telnet登入再执行sshd服务重启命令。  
 
-### 7. 允许root用户远程登录
-```
-cp sshd_config /etc/ssh/sshd_config
-```
-> **vim /etc/ssh/sshd_config 修改 PermitRootLogin yes,并去掉注释配置允许root用户远程登录**  
-这一操作很重要！很重要！很重要！重要的事情说三遍，因为openssh安装好默认是不执行sshd_config文件的，所以即使在sshd_config中配置允许root用户远程登录，但是不加上这句命令，还是不会生效！
 ```
 vim /etc/init.d/sshd
 ```
@@ -171,8 +158,14 @@ vim /etc/init.d/sshd
 ```$SSHD $OPTIONS && success || failure```  
 这一行上面加上一行   
 ```OPTIONS="-f /etc/ssh/sshd_config"``` 
-保存退出
-### 8.重启系统验证没问题后关闭telnet服务并将防火墙配置修改回来
+保存退出  
+重启openssh服务  
+```
+service sshd restart
+```
+> 注意：如果升级操作一直是在ssh远程会话中进行的，上述sshd服务重启命令可能导致会话断开并无法使用ssh再行登入（即ssh未能成功重启），此时需要通过telnet登入再执行sshd服务重启命令。  
+
+### 7.重启系统验证没问题后关闭telnet服务并将防火墙配置修改回来
 ```
 mv /etc/securetty.old /etc/securetty 
 chkconfig  xinetd off 
