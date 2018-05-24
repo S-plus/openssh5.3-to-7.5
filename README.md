@@ -171,7 +171,8 @@ mv /etc/securetty.old /etc/securetty
 chkconfig  xinetd off 
 service xinetd stop
 vim /etc/sysconfig/iptables
--A INPUT -m state --state NEW -m tcp -p tcp --dport 23 -j ACCEPT //将这条删除
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 23 -j ACCEPT #将这条删除
+vim /etc/xinetd.d/telnet #将disable字段改为yes
 ```
 重启防火墙服务
 ```
@@ -181,4 +182,5 @@ service iptables restart
 ```
 rm -rf /etc/ssh 
 mv /etc/ssh.old /etc/ssh
+make distclean #到编译目录下执行
 ```
